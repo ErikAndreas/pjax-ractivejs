@@ -1,0 +1,17 @@
+{
+  "name": "pjax-ractivejs",
+  "version": "0.0.1",
+  "description": "Isomorphic javascript PJAX with Ractive.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-js": "browserify index.js > bundle.js"
+  },
+  "author": "Andreas Nyhrén",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^3.5.1",
+    "ractive": "^0.4.0-pre2",
+    "superagent": "^0.17.0"
+  }
+}
