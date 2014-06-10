@@ -10,7 +10,7 @@ This is a least viable client - server setup using pushState + Ajax; PJAX, with 
 * Twitter does something similar
 * Borrowed _a lot_ from [PJAX-Standalone](https://github.com/thybag/PJAX-Standalone/blob/master/pjax-standalone.js) 
 * Doesn't return rendered html on XHR requests (like PJAX-Standalone), but json data (like Twitter) + parsed Ractive template (parsed tpl is valid json!)
-* Express.js template rendering could be simplified and more express-ish when/if Ractive [fixes renderFile/__express](https://github.com/ractivejs/ractive/issues/538)
+* Express.js template rendering using [ractive-render](https://github.com/MartinKolarik/ractive-render/)
 
 ##Run it
 ```bash
