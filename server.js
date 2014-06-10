@@ -2,19 +2,8 @@ var express = require('express');
 var app = express();
 var Ractive = require('ractive');
 var fs = require('fs');
-
-var idx, idxcon, list, listcon, menu;
-
-function fread(fna) {
-	c = fs.readFileSync(__dirname+'/views/'+fna+'.html', 'utf8');
-  return c;
-}
-
-idx = fread('index');
-idxcon = fread('indexcontent');
-list = fread('list');
-listcon = fread('listcontent');
-menu = fread('menu');
+var rr = require('ractive-render');
+app.engine('html', rr.renderFile);
 
 app.use(express.static(__dirname + '/'));
 
@@ -33,20 +22,18 @@ app.get('/index', function (req, res) {
   };
   if (req.headers['x-pjax']) {
     res.header('Content-Type', 'application/json');
-    res.end(JSON.stringify({
-      "data":data,
-      "tpl":Ractive.parse(idxcon)
-    }));
+    rr.renderFile('views/indexcontent.html', {data:data}, function(err, html) {
+      console.log(err, html);
+      res.end(JSON.stringify({
+        "data":data,
+        "tpl":Ractive.parse(html)
+      }));
+    });
+    
   } else {
-  	var ractive = new Ractive({
-  		template: idx,
-      partials: {
-        'menu':menu,
-        'indexcontent':idxcon
-      },
-      data: data
-  	});
-    res.end(ractive.toHTML());
+    app.render('index.html', {data: data, autoloadPartials:true}, function(err, html) {
+      res.end(html);
+    });
   }
 });
 
@@ -58,20 +45,16 @@ app.get('/list', function (req, res) {
   }; 
   if (req.headers['x-pjax']) {
     res.header('Content-Type', 'application/json');
-    res.end(JSON.stringify({
-      "data":data,
-      "tpl":Ractive.parse(listcon)
-    }));
-  } else {
-    var ractive = new Ractive({
-      template: list,
-      partials: {
-        'menu':menu,
-        'listcontent':listcon
-      },
-      data: data
+    rr.renderFile('views/listcontent.html', {data:data}, function(err, html) {
+      res.end(JSON.stringify({
+        "data":data,
+        "tpl":Ractive.parse(html)
+      }));
     });
-    res.end(ractive.toHTML());
+  } else {
+    app.render('list.html', {data: data, autoloadPartials:true}, function(err, html) {
+      res.end(html);
+    });
   }
 });
 
