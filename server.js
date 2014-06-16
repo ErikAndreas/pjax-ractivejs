@@ -23,7 +23,6 @@ app.get('/index', function (req, res) {
   if (req.headers['x-pjax']) {
     res.header('Content-Type', 'application/json');
     rr.renderFile('views/indexcontent.html', {data:data}, function(err, html) {
-      console.log(err, html);
       res.end(JSON.stringify({
         "data":data,
         "tpl":Ractive.parse(html)
@@ -31,7 +30,7 @@ app.get('/index', function (req, res) {
     });
     
   } else {
-    app.render('index.html', {data: data, autoloadPartials:true}, function(err, html) {
+    app.render('index.html', {data: data}, function(err, html) {
       res.end(html);
     });
   }
@@ -52,7 +51,7 @@ app.get('/list', function (req, res) {
       }));
     });
   } else {
-    app.render('list.html', {data: data, autoloadPartials:true}, function(err, html) {
+    app.render('list.html', {data: data}, function(err, html) {
       res.end(html);
     });
   }
